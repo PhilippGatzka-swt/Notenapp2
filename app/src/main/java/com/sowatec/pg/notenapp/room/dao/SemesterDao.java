@@ -18,4 +18,7 @@ public interface SemesterDao {
     @Delete
     void delete(Semester... semester);
 
+    @Query("SELECT * FROM semester where semester_id = :semester_id")
+    Semester selectBySemesterId(int semester_id);
+
 }
