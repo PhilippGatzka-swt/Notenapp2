@@ -1,5 +1,6 @@
 package com.sowatec.pg.notenapp.room.dao;
 
+import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -8,6 +9,7 @@ import com.sowatec.pg.notenapp.room.entity.Semester;
 
 import java.util.List;
 
+@Dao
 public interface SemesterDao {
     @Query("SELECT * FROM semester")
     List<Semester> selectAll();
@@ -17,5 +19,8 @@ public interface SemesterDao {
 
     @Delete
     void delete(Semester... semester);
+
+    @Query("SELECT * FROM semester where semester_id = :semester_id")
+    Semester selectBySemesterId(int semester_id);
 
 }
