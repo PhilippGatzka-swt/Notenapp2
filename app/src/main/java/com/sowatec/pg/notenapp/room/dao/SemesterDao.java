@@ -34,4 +34,5 @@ public interface SemesterDao {
 
     @Query("SELECT avg(grade_grade) FROM grade")
     Double selectAverage();
+
 }
