@@ -21,4 +21,7 @@ public interface GradeDao {
     @Delete
     void delete(Grade... grade);
 
+    @Query("SELECT * FROM grade where grade_id = :grade_id")
+    Grade selectByGradeId(int grade_id);
+
 }

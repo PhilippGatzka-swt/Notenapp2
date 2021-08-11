@@ -41,51 +41,51 @@ public class Grade {
         this.grade_subject = grade_subject;
     }
 
-    public int getGradeId() {
+    public int getGrade_id() {
         return grade_id;
     }
 
-    public void setGradeId(int grade_id) {
+    public void setGrade_id(int grade_id) {
         this.grade_id = grade_id;
     }
 
-    public String getGradeName() {
+    public String getGrade_name() {
         return grade_name;
     }
 
-    public void setGradeName(String grade_name) {
+    public void setGrade_name(String grade_name) {
         this.grade_name = grade_name;
     }
 
-    public long getGradeDate() {
+    public long getGrade_date() {
         return grade_date;
     }
 
-    public void setGradeDate(long grade_date) {
+    public void setGrade_date(long grade_date) {
         this.grade_date = grade_date;
     }
 
-    public double getGradeGrade() {
+    public double getGrade_grade() {
         return grade_grade;
     }
 
-    public void setGradeGrade(double grade_grade) {
+    public void setGrade_grade(double grade_grade) {
         this.grade_grade = grade_grade;
     }
 
-    public boolean isGradeSent() {
+    public boolean isGrade_sent() {
         return grade_sent;
     }
 
-    public void setGradeSent(boolean grade_sent) {
+    public void setGrade_sent(boolean grade_sent) {
         this.grade_sent = grade_sent;
     }
 
-    public Subject getGradeSubject() {
+    public Subject getGrade_subject() {
         return grade_subject;
     }
 
-    public void setGradeSubject(Subject grade_subject) {
+    public void setGrade_subject(Subject grade_subject) {
         this.grade_subject = grade_subject;
     }
 }

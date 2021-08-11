@@ -30,27 +30,27 @@ public class Subject {
         this.subject_semester = subject_semester;
     }
 
-    public int getSubjectId() {
+    public int getSubject_id() {
         return subject_id;
     }
 
-    public void setSubjectId(int subject_id) {
+    public void setSubject_id(int subject_id) {
         this.subject_id = subject_id;
     }
 
-    public String getSubjectName() {
+    public String getSubject_name() {
         return subject_name;
     }
 
-    public void setSubjectName(String subject_name) {
+    public void setSubject_name(String subject_name) {
         this.subject_name = subject_name;
     }
 
-    public Semester getSubjectSemester() {
+    public Semester getSubject_semester() {
         return subject_semester;
     }
 
-    public void setSubjectSemester(Semester subject_semester) {
+    public void setSubject_semester(Semester subject_semester) {
         this.subject_semester = subject_semester;
     }
 }

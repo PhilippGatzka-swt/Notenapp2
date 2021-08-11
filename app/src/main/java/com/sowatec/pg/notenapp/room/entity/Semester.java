@@ -24,19 +24,19 @@ public class Semester {
         this.semester_name = semester_name;
     }
 
-    public int getSemesterId() {
+    public int getSemester_id() {
         return semester_id;
     }
 
-    public void setSemesterId(int semester_id) {
+    public void setSemester_id(int semester_id) {
         this.semester_id = semester_id;
     }
 
-    public String getSemesterName() {
+    public String getSemester_name() {
         return semester_name;
     }
 
-    public void setSemesterName(String semester_name) {
+    public void setSemester_name(String semester_name) {
         this.semester_name = semester_name;
     }
 }
