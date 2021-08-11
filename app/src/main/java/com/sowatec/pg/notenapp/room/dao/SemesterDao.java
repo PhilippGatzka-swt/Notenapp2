@@ -23,4 +23,6 @@ public interface SemesterDao {
     @Query("SELECT * FROM semester where semester_id = :semester_id")
     Semester selectBySemesterId(int semester_id);
 
+    @Query("SELECT * FROM semester where semester_name = :semester_name")
+    Semester doesSemesterNameExist(String semester_name);
 }

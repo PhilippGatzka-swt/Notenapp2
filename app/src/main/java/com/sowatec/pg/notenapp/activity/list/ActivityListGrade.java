@@ -35,4 +35,9 @@ public class ActivityListGrade extends AppCompatActivity implements AbstractList
     public void createElement(View view) {
 
     }
+
+    @Override
+    public void init() {
+
+    }
 }

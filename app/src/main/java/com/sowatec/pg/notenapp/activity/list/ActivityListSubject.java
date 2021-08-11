@@ -35,4 +35,9 @@ public class ActivityListSubject extends AppCompatActivity implements AbstractLi
     public void createElement(View view) {
 
     }
+
+    @Override
+    public void init() {
+
+    }
 }
