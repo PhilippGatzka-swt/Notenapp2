@@ -2,16 +2,104 @@ package com.sowatec.pg.notenapp.activity.create;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.database.sqlite.SQLiteConstraintException;
+import android.database.sqlite.SQLiteException;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
+import com.google.android.material.internal.TextWatcherAdapter;
 import com.sowatec.pg.notenapp.R;
 import com.sowatec.pg.notenapp.activity.abstract_.AbstractCreateActivity;
+import com.sowatec.pg.notenapp.room.DatabaseTaskRunner;
+import com.sowatec.pg.notenapp.room.GradeDatabase;
+import com.sowatec.pg.notenapp.room.entity.Semester;
+
+import java.util.concurrent.Callable;
+import java.util.concurrent.Semaphore;
 
 public class ActivityCreateSemester extends AppCompatActivity implements AbstractCreateActivity {
+
+    private EditText input_create_semester_name;
+    private Button button_create_semester_save;
+    private TextView label_create_semester_name_char_count;
+
+    private final int maxLen = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_semester);
+        init();
+    }
+
+    @Override
+    public void init() {
+
+        label_create_semester_name_char_count = findViewById(R.id.label_create_semester_name_char_count);
+        label_create_semester_name_char_count.setText(getString(R.string.maxChars, 0, maxLen));
+
+        button_create_semester_save = findViewById(R.id.button_create_semester_save);
+        button_create_semester_save.setEnabled(false);
+        button_create_semester_save.setBackgroundTintList(getApplicationContext().getColorStateList(R.color.colorstate));
+
+        input_create_semester_name = findViewById(R.id.input_create_semester_name);
+        input_create_semester_name.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                int len = s.toString().length();
+                label_create_semester_name_char_count.setText(getString(R.string.maxChars, len, maxLen));
+                label_create_semester_name_char_count.setTextColor(-1979711488);
+                if (len > maxLen)
+                    label_create_semester_name_char_count.setTextColor(Color.RED);
+                if (s.toString().equals("") || len > maxLen) {
+                    button_create_semester_save.setEnabled(false);
+                    return;
+                }
+                if (!s.toString().equals("")) {
+                    button_create_semester_save.setEnabled(true);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void save(View view) {
+        final String name = input_create_semester_name.getText().toString().trim();
+        Semester semester = new Semester(name);
+
+        new DatabaseTaskRunner().executeAsync(() -> {
+            if (GradeDatabase.get(getApplicationContext()).semesterDao().doesSemesterNameExist(name) == null){
+                GradeDatabase.get(getApplicationContext()).semesterDao().insertAll(semester);
+                finish();
+            }
+            else
+                throw new UnsupportedOperationException("Semester with name already registered");
+            return null;
+        }, result -> {
+
+        });
+
+
+    }
+
+    @Override
+    public void cancel(View view) {
+        finish();
     }
 }
