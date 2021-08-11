@@ -5,6 +5,7 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
+
 import com.sowatec.pg.notenapp.room.entity.Subject;
 
 import java.util.List;
@@ -24,4 +25,6 @@ public interface SubjectDao {
     @Query("SELECT * FROM subject where subject_id = :subject_id")
     Subject selectBySubjectId(int subject_id);
 
+    @Query("SELECT * FROM subject where semester_id = :semester_id AND semester_name = :subject_name")
+    Subject doesSubjectNameExistInSemester(String subject_name, int semester_id);
 }
