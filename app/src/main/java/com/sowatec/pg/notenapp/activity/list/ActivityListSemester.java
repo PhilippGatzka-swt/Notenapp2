@@ -16,8 +16,6 @@ public class ActivityListSemester extends AppCompatActivity implements AbstractL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_semester);
-        Intent intent = new Intent(getApplicationContext(), ActivityCreateSemester.class);
-        startActivity(intent);
     }
 
     @Override
