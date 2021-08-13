@@ -135,7 +135,6 @@ public class ActivityListSemester extends AppCompatActivity implements AbstractL
         populateList();
     }
 
-
     @Override
     public void menuActionEdit() {
         ArrayAdapter<Semester> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, semesterList);
