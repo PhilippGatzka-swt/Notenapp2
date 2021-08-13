@@ -2,7 +2,9 @@ package com.sowatec.pg.notenapp.activity.abstract_;
 
 import android.view.View;
 
-public interface AbstractListActivity extends AbstractActivity {
+import com.sowatec.pg.notenapp.activity.list.ActionMenu;
+
+public interface AbstractListActivity extends AbstractActivity, ActionMenu {
 
     void populateList();
 

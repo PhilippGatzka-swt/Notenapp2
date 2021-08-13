@@ -54,32 +54,26 @@ public class ActivityListGrade extends AppCompatActivity implements AbstractList
 
     @Override
     public void populateList() {
-        new DatabaseTaskRunner().executeAsync(() -> GradeDatabase.get(getApplicationContext()).gradeDao().selectBySubjectId(subject_id), new DatabaseTaskRunner.Callback<List<Grade>>() {
-            @Override
-            public void onComplete(List<Grade> result) {
-                final boolean[] dark = {false};
-                result.forEach(element -> {
-                    GradeListItem item = new GradeListItem(element, view_list_grade_list.getContext());
-                    item.setOnClickListener(view -> viewElement(view));
-                    view_list_grade_list.addView(item);
-                    if (dark[0])
-                        item.setBackgroundColor(getApplicationContext().getColor(R.color.listItemDark));
-                    if (!dark[0])
-                        item.setBackgroundColor(getApplicationContext().getColor(R.color.listItemBright));
-                    dark[0] = !dark[0];
-                });
-                label_list_grade_elements.setText(getApplicationContext().getString(R.string.elements, result.size()));
-                if (result.size() == 1) {
-                    label_list_grade_elements.setText(getApplicationContext().getString(R.string.element, result.size()));
-                }
+        new DatabaseTaskRunner().executeAsync(() -> GradeDatabase.get(getApplicationContext()).gradeDao().selectBySubjectId(subject_id), result -> {
+            final boolean[] dark = {false};
+            result.forEach(element -> {
+                GradeListItem item = new GradeListItem(element, view_list_grade_list.getContext());
+                item.setOnClickListener(this::viewElement);
+                view_list_grade_list.addView(item);
+                if (dark[0])
+                    item.setBackgroundColor(getApplicationContext().getColor(R.color.listItemDark));
+                if (!dark[0])
+                    item.setBackgroundColor(getApplicationContext().getColor(R.color.listItemBright));
+                dark[0] = !dark[0];
+            });
+            label_list_grade_elements.setText(getApplicationContext().getString(R.string.elements, result.size()));
+            if (result.size() == 1) {
+                label_list_grade_elements.setText(getApplicationContext().getString(R.string.element, result.size()));
             }
         });
-        new DatabaseTaskRunner().executeAsync(() -> GradeDatabase.get(getApplicationContext()).semesterDao().selectAverage(), new DatabaseTaskRunner.Callback<Double>() {
-            @Override
-            public void onComplete(Double result) {
-                if (result == null) result = 0.0;
-                label_list_grade_average.setText(getApplicationContext().getString(R.string.average, result + ""));
-            }
+        new DatabaseTaskRunner().executeAsync(() -> GradeDatabase.get(getApplicationContext()).semesterDao().selectAverage(), result -> {
+            if (result == null) result = 0.0;
+            label_list_grade_average.setText(getApplicationContext().getString(R.string.average, result + ""));
         });
     }
 
@@ -101,4 +95,24 @@ public class ActivityListGrade extends AppCompatActivity implements AbstractList
     }
 
 
+    @Override
+    public void menuActionRefresh() {
+        view_list_grade_list.removeAllViews();
+        populateList();
+    }
+
+    @Override
+    public void menuActionEmail() {
+
+    }
+
+    @Override
+    public void menuActionEdit() {
+
+    }
+
+    @Override
+    public void menuActionDelete() {
+
+    }
 }

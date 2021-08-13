@@ -1,12 +1,17 @@
 package com.sowatec.pg.notenapp.activity.list;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.sowatec.pg.notenapp.R;
 import com.sowatec.pg.notenapp.activity.abstract_.AbstractListActivity;
@@ -16,20 +21,21 @@ import com.sowatec.pg.notenapp.room.DatabaseTaskRunner;
 import com.sowatec.pg.notenapp.room.GradeDatabase;
 import com.sowatec.pg.notenapp.room.entity.Semester;
 
-import java.text.BreakIterator;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 public class ActivityListSemester extends AppCompatActivity implements AbstractListActivity {
 
     private LinearLayout view_list_semester_list;
     private TextView label_list_semester_elements;
     private TextView label_list_semester_average;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_semester);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         init();
     }
 
@@ -48,6 +54,37 @@ public class ActivityListSemester extends AppCompatActivity implements AbstractL
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menuRefresh:
+                menuActionRefresh();
+                return true;
+            case R.id.menuEmail:
+                menuActionEmail();
+                return true;
+            case R.id.menuEdit:
+                menuActionEdit();
+                return true;
+            case R.id.menuDelete:
+                menuActionDelete();
+                return true;
+
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+
+    }
+
+    @Override
     public void populateList() {
         new DatabaseTaskRunner().executeAsync(() -> GradeDatabase.get(getApplicationContext()).semesterDao().selectAll(), new DatabaseTaskRunner.Callback<List<Semester>>() {
             @Override
@@ -63,9 +100,9 @@ public class ActivityListSemester extends AppCompatActivity implements AbstractL
                         item.setBackgroundColor(getApplicationContext().getColor(R.color.listItemBright));
                     dark[0] = !dark[0];
                 });
-                label_list_semester_elements.setText(getApplicationContext().getString(R.string.elements,result.size()));
+                label_list_semester_elements.setText(getApplicationContext().getString(R.string.elements, result.size()));
                 if (result.size() == 1) {
-                    label_list_semester_elements.setText(getApplicationContext().getString(R.string.element,result.size()));
+                    label_list_semester_elements.setText(getApplicationContext().getString(R.string.element, result.size()));
                 }
             }
         });
@@ -73,7 +110,7 @@ public class ActivityListSemester extends AppCompatActivity implements AbstractL
             @Override
             public void onComplete(Double result) {
                 if (result == null) result = 0.0;
-                label_list_semester_average.setText(getApplicationContext().getString(R.string.average,result + ""));
+                label_list_semester_average.setText(getApplicationContext().getString(R.string.average, result + ""));
             }
         });
 
@@ -81,9 +118,9 @@ public class ActivityListSemester extends AppCompatActivity implements AbstractL
 
     @Override
     public void viewElement(View view) {
-        Intent intent = new Intent(getApplicationContext(),ActivityListSubject.class);
+        Intent intent = new Intent(getApplicationContext(), ActivityListSubject.class);
         int semester_id = ((SemesterListItem) view).getEntity().getSemester_id();
-        intent.putExtra("semester_id",semester_id);
+        intent.putExtra("semester_id", semester_id);
         startActivity(intent);
     }
 
@@ -99,4 +136,24 @@ public class ActivityListSemester extends AppCompatActivity implements AbstractL
     }
 
 
+    @Override
+    public void menuActionRefresh() {
+        view_list_semester_list.removeAllViews();
+        populateList();
+    }
+
+    @Override
+    public void menuActionEmail() {
+
+    }
+
+    @Override
+    public void menuActionEdit() {
+
+    }
+
+    @Override
+    public void menuActionDelete() {
+
+    }
 }

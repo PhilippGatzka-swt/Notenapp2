@@ -101,4 +101,24 @@ public class ActivityListSubject extends AppCompatActivity implements AbstractLi
     }
 
 
+    @Override
+    public void menuActionRefresh() {
+        view_list_subject_list.removeAllViews();
+        populateList();
+    }
+
+    @Override
+    public void menuActionEmail() {
+
+    }
+
+    @Override
+    public void menuActionEdit() {
+
+    }
+
+    @Override
+    public void menuActionDelete() {
+
+    }
 }
