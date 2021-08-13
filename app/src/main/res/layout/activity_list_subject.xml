@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
+        android:backgroundTint="@color/primaryButtonActive"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:layout_constraintTop_toTopOf="parent"
@@ -22,12 +23,14 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
+        android:backgroundTint="@color/primaryButtonActive"
         android:clickable="true"
         android:contentDescription="@string/add"
         android:onClick="createElement"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_add" />
+        app:srcCompat="@android:drawable/ic_menu_add"
+        tools:ignore="ImageContrastCheck" />
 
     <TextView
         android:id="@+id/label_list_subject_elements"
@@ -36,7 +39,7 @@
         android:background="@color/primaryButtonInactive"
         android:labelFor="@id/view_list_subject_scrollview"
         android:paddingHorizontal="15dp"
-        android:paddingVertical="5dp"
+        android:paddingVertical="10dp"
         android:text="@string/element"
         android:textColor="#4E342E"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,7 +52,7 @@
         android:layout_height="wrap_content"
         android:background="@color/primaryButtonInactive"
         android:paddingHorizontal="15dp"
-        android:paddingVertical="5dp"
+        android:paddingVertical="10dp"
         android:text="@string/average"
         android:textColor="#4E342E"
         app:layout_constraintBottom_toBottomOf="parent"
