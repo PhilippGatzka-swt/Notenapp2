@@ -26,4 +26,7 @@ public interface GradeDao {
 
     @Query("SELECT * FROM grade where grade_name = :grade_name AND subject_id = :subject_id")
     Grade doesGradeNameExistInSubject(String grade_name, int subject_id);
+
+    @Query("SELECT * FROM grade WHERE subject_id = :subject_id")
+    List<Grade> selectBySubjectId(int subject_id);
 }
