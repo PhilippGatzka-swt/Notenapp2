@@ -28,7 +28,7 @@ public abstract class GradeDatabase extends RoomDatabase {
 
     public static GradeDatabase get(Context context) {
         if (database == null)
-            database = Room.databaseBuilder(context, GradeDatabase.class, "grade-database").build();
+            database = Room.databaseBuilder(context, GradeDatabase.class, "grade-database").allowMainThreadQueries().build();
         return database;
     }
 

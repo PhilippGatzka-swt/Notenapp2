@@ -29,4 +29,7 @@ public interface GradeDao {
 
     @Query("SELECT * FROM grade WHERE subject_id = :subject_id")
     List<Grade> selectBySubjectId(int subject_id);
+
+    @Query("SELECT * FROM grade WHERE semester_id = :semester_id")
+    List<Grade> selectBySemesterId(int semester_id);
 }

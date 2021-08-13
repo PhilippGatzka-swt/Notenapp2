@@ -1,11 +1,16 @@
 package com.sowatec.pg.notenapp.activity.list;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.sowatec.pg.notenapp.R;
@@ -17,6 +22,7 @@ import com.sowatec.pg.notenapp.activity.list.fragment.SubjectListItem;
 import com.sowatec.pg.notenapp.room.DatabaseTaskRunner;
 import com.sowatec.pg.notenapp.room.GradeDatabase;
 import com.sowatec.pg.notenapp.room.entity.Grade;
+import com.sowatec.pg.notenapp.room.entity.Semester;
 import com.sowatec.pg.notenapp.room.entity.Subject;
 
 import java.util.List;
@@ -27,6 +33,7 @@ public class ActivityListGrade extends AppCompatActivity implements AbstractList
     private TextView label_list_grade_elements;
     private TextView label_list_grade_average;
 
+    private List<Grade> gradeList;
     private int subject_id;
 
     @Override
@@ -56,6 +63,8 @@ public class ActivityListGrade extends AppCompatActivity implements AbstractList
     public void populateList() {
         new DatabaseTaskRunner().executeAsync(() -> GradeDatabase.get(getApplicationContext()).gradeDao().selectBySubjectId(subject_id), result -> {
             final boolean[] dark = {false};
+            gradeList.clear();
+            gradeList.addAll(result);
             result.forEach(element -> {
                 GradeListItem item = new GradeListItem(element, view_list_grade_list.getContext());
                 item.setOnClickListener(this::viewElement);
@@ -103,7 +112,17 @@ public class ActivityListGrade extends AppCompatActivity implements AbstractList
 
     @Override
     public void menuActionEmail() {
+        ArrayAdapter<Grade> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, gradeList);
+        Spinner spinner = new Spinner(this);
+        spinner.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        spinner.setAdapter(adapter);
 
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setNegativeButton("Abbrechen", null);
+        builder.setTitle("Email");
+        builder.setMessage("Welches Semester wollen sie versenden?");
+        builder.setView(spinner);
+        builder.create().show();
     }
 
     @Override
