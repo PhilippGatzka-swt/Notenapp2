@@ -1,5 +1,6 @@
 package com.sowatec.pg.notenapp.room.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -38,5 +39,11 @@ public class Semester {
 
     public void setSemester_name(String semester_name) {
         this.semester_name = semester_name;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return semester_name;
     }
 }

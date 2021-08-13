@@ -88,4 +88,9 @@ public class Grade {
     public void setGrade_subject(Subject grade_subject) {
         this.grade_subject = grade_subject;
     }
+
+    @Override
+    public String toString() {
+        return grade_name + " " + grade_grade;
+    }
 }

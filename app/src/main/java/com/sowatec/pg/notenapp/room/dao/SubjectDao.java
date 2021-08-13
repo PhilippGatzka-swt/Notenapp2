@@ -4,6 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.sowatec.pg.notenapp.room.entity.Subject;
 
@@ -35,4 +36,7 @@ public interface SubjectDao {
 
     @Query("SELECT avg(grade_grade) FROM grade WHERE subject_id = :subject_id")
     double selectSubjectAverage(int subject_id);
+
+    @Update
+    void update(Subject result);
 }

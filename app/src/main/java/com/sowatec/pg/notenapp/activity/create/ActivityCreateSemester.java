@@ -1,9 +1,5 @@
 package com.sowatec.pg.notenapp.activity.create;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.database.sqlite.SQLiteConstraintException;
-import android.database.sqlite.SQLiteException;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
@@ -13,15 +9,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.android.material.internal.TextWatcherAdapter;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.sowatec.pg.notenapp.R;
 import com.sowatec.pg.notenapp.activity.abstract_.AbstractCreateActivity;
 import com.sowatec.pg.notenapp.room.DatabaseTaskRunner;
 import com.sowatec.pg.notenapp.room.GradeDatabase;
 import com.sowatec.pg.notenapp.room.entity.Semester;
-
-import java.util.concurrent.Callable;
-import java.util.concurrent.Semaphore;
 
 public class ActivityCreateSemester extends AppCompatActivity implements AbstractCreateActivity {
 
@@ -30,16 +24,19 @@ public class ActivityCreateSemester extends AppCompatActivity implements Abstrac
     private TextView label_create_semester_name_char_count;
 
     private final int maxLen = 20;
+    private int semester_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_semester);
+        semester_id = getIntent().getIntExtra("semester_id", -1);
         init();
     }
 
     @Override
     public void init() {
+
 
         label_create_semester_name_char_count = findViewById(R.id.label_create_semester_name_char_count);
         label_create_semester_name_char_count.setText(getString(R.string.maxChars, 0, maxLen));
@@ -47,8 +44,11 @@ public class ActivityCreateSemester extends AppCompatActivity implements Abstrac
         button_create_semester_save = findViewById(R.id.button_create_semester_save);
         button_create_semester_save.setEnabled(false);
         button_create_semester_save.setBackgroundTintList(getApplicationContext().getColorStateList(R.color.colorstate));
-
         input_create_semester_name = findViewById(R.id.input_create_semester_name);
+        if (semester_id != -1)
+            new DatabaseTaskRunner().executeAsync(() -> GradeDatabase.get(getApplicationContext()).semesterDao().selectBySemesterId(semester_id), result -> input_create_semester_name.setText(result.getSemester_name()));
+
+
         input_create_semester_name.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -81,21 +81,22 @@ public class ActivityCreateSemester extends AppCompatActivity implements Abstrac
     @Override
     public void save(View view) {
         final String name = input_create_semester_name.getText().toString().trim();
-        Semester semester = new Semester(name);
-
-        new DatabaseTaskRunner().executeAsync(() -> {
-            if (GradeDatabase.get(getApplicationContext()).semesterDao().doesSemesterNameExist(name) == null){
+        if (semester_id == -1) {
+            Semester semester = new Semester(name);
+            new DatabaseTaskRunner().executeAsync(() -> {
                 GradeDatabase.get(getApplicationContext()).semesterDao().insertAll(semester);
                 finish();
-            }
-            else
-                throw new UnsupportedOperationException("Semester with name already registered");
-            return null;
-        }, result -> {
+                return null;
+            }, result -> {
 
-        });
-
-
+            });
+        } else {
+            new DatabaseTaskRunner().executeAsync(() -> GradeDatabase.get(getApplicationContext()).semesterDao().selectBySemesterId(semester_id), result -> {
+                result.setSemester_name(name);
+                GradeDatabase.get(getApplicationContext()).semesterDao().update(result);
+                finish();
+            });
+        }
     }
 
     @Override

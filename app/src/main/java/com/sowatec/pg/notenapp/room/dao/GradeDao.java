@@ -4,6 +4,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.sowatec.pg.notenapp.room.entity.Grade;
 
@@ -29,4 +30,10 @@ public interface GradeDao {
 
     @Query("SELECT * FROM grade WHERE subject_id = :subject_id")
     List<Grade> selectBySubjectId(int subject_id);
+
+    @Query("SELECT * FROM grade WHERE semester_id = :semester_id")
+    List<Grade> selectBySemesterId(int semester_id);
+
+    @Update
+    void update(Grade result);
 }

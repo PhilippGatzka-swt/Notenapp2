@@ -53,4 +53,9 @@ public class Subject {
     public void setSubject_semester(Semester subject_semester) {
         this.subject_semester = subject_semester;
     }
+
+    @Override
+    public String toString() {
+        return subject_name;
+    }
 }
