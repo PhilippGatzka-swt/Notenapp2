@@ -1,6 +1,5 @@
 package com.sowatec.pg.notenapp.activity.list;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,7 +11,6 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -31,7 +29,6 @@ import com.sowatec.pg.notenapp.room.entity.Subject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 public class ActivityListSemester extends AppCompatActivity implements AbstractListActivity {
 
@@ -92,36 +89,29 @@ public class ActivityListSemester extends AppCompatActivity implements AbstractL
 
     @Override
     public void populateList() {
-        new DatabaseTaskRunner().executeAsync(() -> GradeDatabase.get(getApplicationContext()).semesterDao().selectAll(), new DatabaseTaskRunner.Callback<List<Semester>>() {
-            @Override
-            public void onComplete(List<Semester> result) {
-                final boolean[] dark = {false};
-                semesterList.clear();
-                semesterList.addAll(result);
-                result.forEach(element -> {
-                    SemesterListItem item = new SemesterListItem(element, view_list_semester_list.getContext());
-                    item.setOnClickListener(view -> viewElement(view));
-                    view_list_semester_list.addView(item);
-                    if (dark[0])
-                        item.setBackgroundColor(getApplicationContext().getColor(R.color.listItemDark));
-                    if (!dark[0])
-                        item.setBackgroundColor(getApplicationContext().getColor(R.color.listItemBright));
-                    dark[0] = !dark[0];
-                });
-                label_list_semester_elements.setText(getApplicationContext().getString(R.string.elements, result.size()));
-                if (result.size() == 1) {
-                    label_list_semester_elements.setText(getApplicationContext().getString(R.string.element, result.size()));
-                }
+        new DatabaseTaskRunner().executeAsync(() -> GradeDatabase.get(getApplicationContext()).semesterDao().selectAll(), result -> {
+            final boolean[] dark = {false};
+            semesterList.clear();
+            semesterList.addAll(result);
+            result.forEach(element -> {
+                SemesterListItem item = new SemesterListItem(element, view_list_semester_list.getContext());
+                item.setOnClickListener(view -> viewElement(view));
+                view_list_semester_list.addView(item);
+                if (dark[0])
+                    item.setBackgroundColor(getApplicationContext().getColor(R.color.listItemDark));
+                if (!dark[0])
+                    item.setBackgroundColor(getApplicationContext().getColor(R.color.listItemBright));
+                dark[0] = !dark[0];
+            });
+            label_list_semester_elements.setText(getApplicationContext().getString(R.string.elements, result.size()));
+            if (result.size() == 1) {
+                label_list_semester_elements.setText(getApplicationContext().getString(R.string.element, result.size()));
             }
         });
-        new DatabaseTaskRunner().executeAsync(() -> GradeDatabase.get(getApplicationContext()).semesterDao().selectAverage(), new DatabaseTaskRunner.Callback<Double>() {
-            @Override
-            public void onComplete(Double result) {
-                if (result == null) result = 0.0;
-                label_list_semester_average.setText(getApplicationContext().getString(R.string.average, result + ""));
-            }
+        new DatabaseTaskRunner().executeAsync(() -> GradeDatabase.get(getApplicationContext()).semesterDao().selectAverage(), result -> {
+            if (result == null) result = 0.0;
+            label_list_semester_average.setText(getApplicationContext().getString(R.string.average, result + ""));
         });
-
     }
 
     @Override
@@ -130,11 +120,6 @@ public class ActivityListSemester extends AppCompatActivity implements AbstractL
         int semester_id = ((SemesterListItem) view).getEntity().getSemester_id();
         intent.putExtra("semester_id", semester_id);
         startActivity(intent);
-    }
-
-    @Override
-    public void editElement(View view) {
-
     }
 
     @Override
@@ -150,10 +135,6 @@ public class ActivityListSemester extends AppCompatActivity implements AbstractL
         populateList();
     }
 
-    @Override
-    public void menuActionEmail() {
-
-    }
 
     @Override
     public void menuActionEdit() {
@@ -171,7 +152,6 @@ public class ActivityListSemester extends AppCompatActivity implements AbstractL
             intent.putExtra("semester_id", semester.getSemester_id());
             startActivity(intent);
         });
-
         builder.setView(spinner);
         builder.create().show();
     }

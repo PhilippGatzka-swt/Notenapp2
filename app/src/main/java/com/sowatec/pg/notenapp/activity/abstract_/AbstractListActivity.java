@@ -10,8 +10,5 @@ public interface AbstractListActivity extends AbstractActivity, ActionMenu {
 
     void viewElement(View view);
 
-    void editElement(View view);
-
     void createElement(View view);
-
 }

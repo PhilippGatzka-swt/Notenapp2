@@ -2,7 +2,12 @@ package com.sowatec.pg.notenapp.activity.list;
 
 public interface ActionMenu {
     void menuActionRefresh();
-    void menuActionEmail();
+
+    default void menuActionEmail() {
+
+    }
+
     void menuActionEdit();
+
     void menuActionDelete();
 }
