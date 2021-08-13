@@ -31,7 +31,6 @@ public class ActivityListSemester extends AppCompatActivity implements AbstractL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_semester);
         init();
-        populateList();
     }
 
     @Override
@@ -39,6 +38,13 @@ public class ActivityListSemester extends AppCompatActivity implements AbstractL
         view_list_semester_list = findViewById(R.id.view_list_semester_list);
         label_list_semester_elements = findViewById(R.id.label_list_semester_elements);
         label_list_semester_average = findViewById(R.id.label_list_semester_average);
+    }
+
+    @Override
+    protected void onResume() {
+        view_list_semester_list.removeAllViews();
+        populateList();
+        super.onResume();
     }
 
     @Override

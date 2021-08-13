@@ -46,6 +46,13 @@ public class ActivityListGrade extends AppCompatActivity implements AbstractList
     }
 
     @Override
+    protected void onResume() {
+        view_list_grade_list.removeAllViews();
+        populateList();
+        super.onResume();
+    }
+
+    @Override
     public void populateList() {
         new DatabaseTaskRunner().executeAsync(() -> GradeDatabase.get(getApplicationContext()).gradeDao().selectBySubjectId(subject_id), new DatabaseTaskRunner.Callback<List<Grade>>() {
             @Override

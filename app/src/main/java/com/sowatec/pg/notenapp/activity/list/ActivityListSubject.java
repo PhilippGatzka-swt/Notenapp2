@@ -33,6 +33,14 @@ public class ActivityListSubject extends AppCompatActivity implements AbstractLi
         populateList();
     }
 
+
+    @Override
+    protected void onResume() {
+        view_list_subject_list.removeAllViews();
+        populateList();
+        super.onResume();
+    }
+
     @Override
     public void init() {
         semester_id = getIntent().getIntExtra("semester_id", -1);
