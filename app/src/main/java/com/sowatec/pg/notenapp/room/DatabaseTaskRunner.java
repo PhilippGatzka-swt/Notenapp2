@@ -15,19 +15,19 @@ public class DatabaseTaskRunner {
     private final Executor executor = Executors.newSingleThreadExecutor();
     private final Handler handler = new Handler(Looper.getMainLooper());
 
-    public interface Callback<R>{
-        void onComplete(R result);
-    }
-
-    public <R> void executeAsync(Callable<R> callable, Callback<R> callback){
+    public <R> void executeAsync(Callable<R> callable, Callback<R> callback) {
         executor.execute(() -> {
             final R result;
-            try{
+            try {
                 result = callable.call();
                 handler.post(() -> callback.onComplete(result));
             } catch (Exception e) {
                 LOGGER.log(Level.WARNING, Arrays.toString(e.getStackTrace()));
             }
         });
+    }
+
+    public interface Callback<R> {
+        void onComplete(R result);
     }
 }

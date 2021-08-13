@@ -1,5 +1,6 @@
 package com.sowatec.pg.notenapp.activity.list;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -56,6 +57,7 @@ public class ActivityListSubject extends AppCompatActivity implements AbstractLi
         return true;
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -90,35 +92,29 @@ public class ActivityListSubject extends AppCompatActivity implements AbstractLi
 
     @Override
     public void populateList() {
-        new DatabaseTaskRunner().executeAsync(() -> GradeDatabase.get(getApplicationContext()).subjectDao().selectBySemesterId(semester_id), new DatabaseTaskRunner.Callback<List<Subject>>() {
-            @Override
-            public void onComplete(List<Subject> result) {
-                final boolean[] dark = {false};
-                subjectList.clear();
-                subjectList.addAll(result);
+        new DatabaseTaskRunner().executeAsync(() -> GradeDatabase.get(getApplicationContext()).subjectDao().selectBySemesterId(semester_id), result -> {
+            final boolean[] dark = {false};
+            subjectList.clear();
+            subjectList.addAll(result);
 
-                result.forEach(element -> {
-                    SubjectListItem item = new SubjectListItem(element, view_list_subject_list.getContext());
-                    item.setOnClickListener(view -> viewElement(view));
-                    view_list_subject_list.addView(item);
-                    if (dark[0])
-                        item.setBackgroundColor(getApplicationContext().getColor(R.color.listItemDark));
-                    if (!dark[0])
-                        item.setBackgroundColor(getApplicationContext().getColor(R.color.listItemBright));
-                    dark[0] = !dark[0];
-                });
-                label_list_subject_elements.setText(getApplicationContext().getString(R.string.elements, result.size()));
-                if (result.size() == 1) {
-                    label_list_subject_elements.setText(getApplicationContext().getString(R.string.element, result.size()));
-                }
+            result.forEach(element -> {
+                SubjectListItem item = new SubjectListItem(element, view_list_subject_list.getContext());
+                item.setOnClickListener(this::viewElement);
+                view_list_subject_list.addView(item);
+                if (dark[0])
+                    item.setBackgroundColor(getApplicationContext().getColor(R.color.listItemDark));
+                if (!dark[0])
+                    item.setBackgroundColor(getApplicationContext().getColor(R.color.listItemBright));
+                dark[0] = !dark[0];
+            });
+            label_list_subject_elements.setText(getApplicationContext().getString(R.string.elements, result.size()));
+            if (result.size() == 1) {
+                label_list_subject_elements.setText(getApplicationContext().getString(R.string.element, result.size()));
             }
         });
-        new DatabaseTaskRunner().executeAsync(() -> GradeDatabase.get(getApplicationContext()).semesterDao().selectAverage(), new DatabaseTaskRunner.Callback<Double>() {
-            @Override
-            public void onComplete(Double result) {
-                if (result == null) result = 0.0;
-                label_list_subject_average.setText(getApplicationContext().getString(R.string.average, result + ""));
-            }
+        new DatabaseTaskRunner().executeAsync(() -> GradeDatabase.get(getApplicationContext()).semesterDao().selectAverage(), result -> {
+            if (result == null) result = 0.0;
+            label_list_subject_average.setText(getApplicationContext().getString(R.string.average, result + ""));
         });
     }
 

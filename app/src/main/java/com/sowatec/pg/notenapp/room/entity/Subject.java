@@ -1,6 +1,7 @@
 package com.sowatec.pg.notenapp.room.entity;
 
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Embedded;
 import androidx.room.Entity;
@@ -54,6 +55,7 @@ public class Subject {
         this.subject_semester = subject_semester;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return subject_name;

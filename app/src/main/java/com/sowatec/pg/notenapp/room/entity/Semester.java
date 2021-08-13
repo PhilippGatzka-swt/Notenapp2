@@ -16,12 +16,12 @@ public class Semester {
     @ColumnInfo(name = "semester_name")
     private String semester_name;
 
-    public Semester(){
+    public Semester() {
 
     }
 
     @Ignore
-    public Semester(String semester_name){
+    public Semester(String semester_name) {
         this.semester_name = semester_name;
     }
 

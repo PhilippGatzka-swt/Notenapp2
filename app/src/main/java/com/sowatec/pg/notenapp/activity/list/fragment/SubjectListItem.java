@@ -12,6 +12,7 @@ import com.sowatec.pg.notenapp.room.DatabaseTaskRunner;
 import com.sowatec.pg.notenapp.room.GradeDatabase;
 import com.sowatec.pg.notenapp.room.entity.Subject;
 
+@SuppressLint("ViewConstructor")
 public class SubjectListItem extends AbstractListItem<Subject> {
     public SubjectListItem(Subject entity, Context context) {
         super(entity, context);

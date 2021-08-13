@@ -1,14 +1,8 @@
 package com.sowatec.pg.notenapp.activity.list;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.content.DialogInterface;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,18 +13,18 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.sowatec.pg.notenapp.R;
 import com.sowatec.pg.notenapp.activity.abstract_.AbstractListActivity;
 import com.sowatec.pg.notenapp.activity.create.ActivityCreateGrade;
-import com.sowatec.pg.notenapp.activity.create.ActivityCreateSemester;
-import com.sowatec.pg.notenapp.activity.create.ActivityCreateSubject;
 import com.sowatec.pg.notenapp.activity.list.fragment.GradeListItem;
-import com.sowatec.pg.notenapp.activity.list.fragment.SubjectListItem;
 import com.sowatec.pg.notenapp.room.DatabaseTaskRunner;
 import com.sowatec.pg.notenapp.room.GradeDatabase;
 import com.sowatec.pg.notenapp.room.entity.Grade;
-import com.sowatec.pg.notenapp.room.entity.Semester;
-import com.sowatec.pg.notenapp.room.entity.Subject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,14 +37,13 @@ public class ActivityListGrade extends AppCompatActivity implements AbstractList
 
     private List<Grade> gradeList;
     private int subject_id;
-    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_grade);
         gradeList = new ArrayList<>();
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         init();
     }
@@ -70,6 +63,7 @@ public class ActivityListGrade extends AppCompatActivity implements AbstractList
         return true;
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {

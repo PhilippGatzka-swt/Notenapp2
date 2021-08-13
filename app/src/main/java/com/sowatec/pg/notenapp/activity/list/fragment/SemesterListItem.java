@@ -3,10 +3,7 @@ package com.sowatec.pg.notenapp.activity.list.fragment;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.drawable.GradientDrawable;
 import android.view.Gravity;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -14,8 +11,6 @@ import com.sowatec.pg.notenapp.R;
 import com.sowatec.pg.notenapp.room.DatabaseTaskRunner;
 import com.sowatec.pg.notenapp.room.GradeDatabase;
 import com.sowatec.pg.notenapp.room.entity.Semester;
-
-import java.util.concurrent.Callable;
 
 @SuppressLint("ViewConstructor")
 public class SemesterListItem extends AbstractListItem<Semester> {

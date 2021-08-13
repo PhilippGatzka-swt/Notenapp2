@@ -28,9 +28,6 @@ public interface SubjectDao {
     @Query("SELECT * FROM subject where semester_id = :semester_id")
     List<Subject> selectBySemesterId(int semester_id);
 
-    @Query("SELECT * FROM subject where semester_id = :semester_id AND semester_name = :subject_name")
-    Subject doesSubjectNameExistInSemester(String subject_name, int semester_id);
-
     @Query("SELECT count(*) FROM grade WHERE subject_id = :subject_id")
     int selectSubjectGradeCount(int subject_id);
 

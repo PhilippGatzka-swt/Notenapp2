@@ -20,12 +20,10 @@ import com.sowatec.pg.notenapp.room.entity.Subject;
 
 public class ActivityCreateSubject extends AppCompatActivity implements AbstractCreateActivity {
 
+    private final int maxLen = 20;
     private EditText input_create_subject_name;
     private Button button_create_subject_save;
     private TextView label_create_subject_name_char_count;
-
-    private final int maxLen = 20;
-
     private Semester semester;
     private int semester_id;
     private int subject_id;

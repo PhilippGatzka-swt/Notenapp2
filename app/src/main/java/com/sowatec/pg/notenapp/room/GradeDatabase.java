@@ -18,12 +18,6 @@ import com.sowatec.pg.notenapp.room.entity.Subject;
 @TypeConverters({Converters.class})
 public abstract class GradeDatabase extends RoomDatabase {
 
-    public abstract SemesterDao semesterDao();
-
-    public abstract SubjectDao subjectDao();
-
-    public abstract GradeDao gradeDao();
-
     private static GradeDatabase database;
 
     public static GradeDatabase get(Context context) {
@@ -32,8 +26,10 @@ public abstract class GradeDatabase extends RoomDatabase {
         return database;
     }
 
-    public static GradeDatabase get() {
-        if (database == null) throw new NullPointerException();
-        return database;
-    }
+    public abstract SemesterDao semesterDao();
+
+    public abstract SubjectDao subjectDao();
+
+    public abstract GradeDao gradeDao();
+
 }

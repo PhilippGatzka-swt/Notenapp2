@@ -1,5 +1,6 @@
 package com.sowatec.pg.notenapp.activity.list;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -70,6 +71,7 @@ public class ActivityListSemester extends AppCompatActivity implements AbstractL
         return true;
     }
 
+    @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -95,7 +97,7 @@ public class ActivityListSemester extends AppCompatActivity implements AbstractL
             semesterList.addAll(result);
             result.forEach(element -> {
                 SemesterListItem item = new SemesterListItem(element, view_list_semester_list.getContext());
-                item.setOnClickListener(view -> viewElement(view));
+                item.setOnClickListener(this::viewElement);
                 view_list_semester_list.addView(item);
                 if (dark[0])
                     item.setBackgroundColor(getApplicationContext().getColor(R.color.listItemDark));

@@ -1,5 +1,6 @@
 package com.sowatec.pg.notenapp.room.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Embedded;
 import androidx.room.Entity;
@@ -89,6 +90,7 @@ public class Grade {
         this.grade_subject = grade_subject;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return grade_name + " " + grade_grade;
