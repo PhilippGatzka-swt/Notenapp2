@@ -2,6 +2,9 @@ package com.sowatec.pg.notenapp.activity.list;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -9,8 +12,10 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.sowatec.pg.notenapp.R;
 import com.sowatec.pg.notenapp.activity.abstract_.AbstractListActivity;
@@ -21,6 +26,7 @@ import com.sowatec.pg.notenapp.room.GradeDatabase;
 import com.sowatec.pg.notenapp.room.entity.Grade;
 import com.sowatec.pg.notenapp.room.entity.Subject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ActivityListSubject extends AppCompatActivity implements AbstractListActivity {
@@ -30,15 +36,42 @@ public class ActivityListSubject extends AppCompatActivity implements AbstractLi
     private TextView label_list_subject_average;
     private int semester_id;
     private List<Subject> subjectList;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_subject);
+        subjectList = new ArrayList<>();
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         init();
-        populateList();
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        toolbar.getMenu().removeItem(R.id.menuEmail);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menuRefresh:
+                menuActionRefresh();
+                return true;
+            case R.id.menuEdit:
+                menuActionEdit();
+                return true;
+            case R.id.menuDelete:
+                menuActionDelete();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     @Override
     protected void onResume() {
