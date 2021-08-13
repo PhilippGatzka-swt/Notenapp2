@@ -45,6 +45,7 @@ public class ActivityCreateGrade extends AppCompatActivity implements AbstractCr
 
     @Override
     public void init() {
+
         input_create_grade_date = findViewById(R.id.input_create_grade_date);
         input_create_grade_grade = findViewById(R.id.input_create_grade_grade);
         input_create_grade_name = findViewById(R.id.input_create_grade_name);
@@ -71,8 +72,12 @@ public class ActivityCreateGrade extends AppCompatActivity implements AbstractCr
                 //TODO Validation
             }
         });
+        new DatabaseTaskRunner().executeAsync(() -> GradeDatabase.get(getApplicationContext()).subjectDao().selectBySubjectId(subject_id), this::setSubject);
 
+    }
 
+    private void setSubject(Subject subject) {
+        this.subject = subject;
     }
 
     @Override

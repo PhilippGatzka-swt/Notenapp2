@@ -43,7 +43,7 @@ public class SemesterListItem extends AbstractListItem<Semester> {
 
         TextView elements = new TextView(getContext());
         elements.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-        name.setTextSize(17);
+        elements.setTextSize(17);
 
         LinearLayout layout = new LinearLayout(getContext());
         layout.setOrientation(LinearLayout.VERTICAL);
