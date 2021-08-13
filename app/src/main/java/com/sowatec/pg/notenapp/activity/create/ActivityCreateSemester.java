@@ -17,8 +17,6 @@ import com.sowatec.pg.notenapp.room.DatabaseTaskRunner;
 import com.sowatec.pg.notenapp.room.GradeDatabase;
 import com.sowatec.pg.notenapp.room.entity.Semester;
 
-import java.util.concurrent.Callable;
-
 public class ActivityCreateSemester extends AppCompatActivity implements AbstractCreateActivity {
 
     private EditText input_create_semester_name;
@@ -27,7 +25,6 @@ public class ActivityCreateSemester extends AppCompatActivity implements Abstrac
 
     private final int maxLen = 20;
     private int semester_id;
-    private Semester semester;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

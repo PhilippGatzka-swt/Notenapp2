@@ -28,12 +28,14 @@ public class ActivityCreateSubject extends AppCompatActivity implements Abstract
 
     private Semester semester;
     private int semester_id;
+    private int subject_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_subject);
-        semester_id = getIntent().getIntExtra("semester_id",-1);
+        semester_id = getIntent().getIntExtra("semester_id", -1);
+        subject_id = getIntent().getIntExtra("subject_id", -1);
         init();
     }
 
@@ -47,6 +49,9 @@ public class ActivityCreateSubject extends AppCompatActivity implements Abstract
         button_create_subject_save.setBackgroundTintList(getApplicationContext().getColorStateList(R.color.colorstate));
 
         input_create_subject_name = findViewById(R.id.input_create_subject_name);
+        if (subject_id != -1)
+            new DatabaseTaskRunner().executeAsync(() -> GradeDatabase.get(getApplicationContext()).subjectDao().selectBySubjectId(subject_id), result -> input_create_subject_name.setText(result.getSubject_name()));
+
         input_create_subject_name.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -77,26 +82,29 @@ public class ActivityCreateSubject extends AppCompatActivity implements Abstract
         new DatabaseTaskRunner().executeAsync(() -> GradeDatabase.get(getApplicationContext()).semesterDao().selectBySemesterId(semester_id), this::setSemester);
     }
 
-    private void setSemester(Semester semester){
+    private void setSemester(Semester semester) {
         this.semester = semester;
     }
 
     @Override
     public void save(View view) {
         final String name = input_create_subject_name.getText().toString().trim();
-        Subject subject = new Subject(name,semester);
-
-        new DatabaseTaskRunner().executeAsync(() -> {
-            if (GradeDatabase.get(getApplicationContext()).subjectDao().doesSubjectNameExistInSemester(name,semester_id) == null){
+        if (subject_id == -1) {
+            Subject subject = new Subject(name, semester);
+            new DatabaseTaskRunner().executeAsync(() -> {
                 GradeDatabase.get(getApplicationContext()).subjectDao().insertAll(subject);
                 finish();
-            }
-            else
-                throw new UnsupportedOperationException("Subject with name already registered for this semester");
-            return null;
-        }, result -> {
+                return null;
+            }, result -> {
 
-        });
+            });
+        } else {
+            new DatabaseTaskRunner().executeAsync(() -> GradeDatabase.get(getApplicationContext()).subjectDao().selectBySubjectId(subject_id), result -> {
+                result.setSubject_name(name);
+                GradeDatabase.get(getApplicationContext()).subjectDao().update(result);
+                finish();
+            });
+        }
     }
 
     @Override
